@@ -74,6 +74,20 @@ test('Locating parent elements', async ({ page }) => {
   await page.locator('nb-card', { hasText: 'Basic form' }).getByRole('textbox', { name: 'Email' }).fill('basicform@test.com')
 });
 
+test('Reusing locators', async ({ page }) => {
+  await expect(page.getByText('Inline form')).toBeVisible();
+
+  const basicForm = page.locator('nb-card', { hasText: 'Basic form' });
+  const emailInput = basicForm.getByRole('textbox', { name: 'Email' });
+
+  // Parent element locators
+  await emailInput.fill('testbasicform@test.com');
+  await basicForm.getByRole('textbox', { name: 'Password' }).fill('test123');
+  await basicForm.getByRole('button', { name: 'Submit' }).click()
+
+  expect(emailInput).toHaveValue('testbasicform@test.com');
+});
+
 test('Generated test 1', async ({ page }) => {
   await page.getByRole('textbox', { name: 'Jane Doe' }).click();
   await page.getByRole('textbox', { name: 'Jane Doe' }).fill('Jane Doe');
