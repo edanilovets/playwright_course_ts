@@ -88,6 +88,30 @@ test('Reusing locators', async ({ page }) => {
   expect(emailInput).toHaveValue('testbasicform@test.com');
 });
 
+test('Extract values', async ({ page }) => {
+  await expect(page.getByText('Inline form')).toBeVisible();
+
+  const basicForm = page.locator('nb-card', { hasText: 'Basic form' });
+
+  // Extract text
+  const btnText = await basicForm.getByRole('button', { name: 'Submit' }).textContent();
+
+  // All texts in a locator
+  const allTexts = await page.locator('nb-radio').allTextContents();
+  expect(allTexts).toContain('Option 1');
+
+  // Input values
+  const emailField = basicForm.getByRole('textbox', { name: 'Email' });
+  await emailField.fill('test111@test.com');
+  const emailValue = await emailField.inputValue();
+  expect(emailValue).toEqual('test111@test.com');
+
+  // Atrribute values
+  const placeholderValue = await basicForm.getByPlaceholder('Email').getAttribute('placeholder');
+  expect(placeholderValue).toEqual('Email');
+
+});
+
 test('Generated test 1', async ({ page }) => {
   await page.getByRole('textbox', { name: 'Jane Doe' }).click();
   await page.getByRole('textbox', { name: 'Jane Doe' }).fill('Jane Doe');
