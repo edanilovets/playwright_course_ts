@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test';
-import { NavigationPage } from '../page-objects/navigation.page';
+import { PageManager } from '../page-objects/pagemanager';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('http://localhost:4200/');
 });
 
 test('Navigate to form page', async ({ page }) => {
-  const navigationPage = new NavigationPage(page);
-  await navigationPage.openFormLayouts();
+  const pm = new PageManager(page);
+  await pm.getNavigationPage().openFormLayouts();
 });
