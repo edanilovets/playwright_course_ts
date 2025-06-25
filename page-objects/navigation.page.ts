@@ -1,13 +1,13 @@
 import { Page, Locator } from '@playwright/test';
+import { BasePage } from './base.page';
 
-export class NavigationPage {
-  readonly page: Page;
+export class NavigationPage extends BasePage {
   // Locators
   readonly formsMenuItem: Locator;
   readonly formLayoutsMenuItem: Locator;
 
   constructor(page: Page) {
-    this.page = page;
+    super(page);
     // Initialize locators
     this.formsMenuItem = page.getByText('Forms');
     this.formLayoutsMenuItem = page.getByText('Form Layouts');
