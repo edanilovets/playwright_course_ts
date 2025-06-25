@@ -26,7 +26,6 @@ test('Locator syntax rules', async ({ page }) => {
 
   // by exact text
   // page.locator(':text-is("Email")')
-
 });
 
 test('User facing locators', async ({ page }) => {
@@ -70,8 +69,8 @@ test('Locating parent elements', async ({ page }) => {
   await expect(page.getByText('Inline form')).toBeVisible();
 
   // Parent element locators
-  await page.locator('nb-card', { hasText: 'Using the Grid' }).getByRole('textbox', { name: 'Email' }).fill('usingthegrid@test.com')
-  await page.locator('nb-card', { hasText: 'Basic form' }).getByRole('textbox', { name: 'Email' }).fill('basicform@test.com')
+  await page.locator('nb-card', { hasText: 'Using the Grid' }).getByRole('textbox', { name: 'Email' }).fill('usingthegrid@test.com');
+  await page.locator('nb-card', { hasText: 'Basic form' }).getByRole('textbox', { name: 'Email' }).fill('basicform@test.com');
 });
 
 test('Reusing locators', async ({ page }) => {
@@ -83,7 +82,7 @@ test('Reusing locators', async ({ page }) => {
   // Parent element locators
   await emailInput.fill('testbasicform@test.com');
   await basicForm.getByRole('textbox', { name: 'Password' }).fill('test123');
-  await basicForm.getByRole('button', { name: 'Submit' }).click()
+  await basicForm.getByRole('button', { name: 'Submit' }).click();
 
   expect(emailInput).toHaveValue('testbasicform@test.com');
 });
@@ -109,7 +108,6 @@ test('Extract values', async ({ page }) => {
   // Atrribute values
   const placeholderValue = await basicForm.getByPlaceholder('Email').getAttribute('placeholder');
   expect(placeholderValue).toEqual('Email');
-
 });
 
 test('Generated test 1', async ({ page }) => {
