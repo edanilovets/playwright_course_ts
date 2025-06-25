@@ -34,6 +34,9 @@ npm start
 ```
 Base URL: http://localhost:4200/
 
+### Environment Setup
+To run the Sertifi tests, you need to set up environment variables in a .env file. 
+You can do this by renaming the .env.example file to .env, which already contains the necessary variable names. 
 
 ### Playwright roles (for `getByRole`)
 
