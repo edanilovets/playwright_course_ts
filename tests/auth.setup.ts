@@ -1,6 +1,6 @@
 import { test as setup, expect } from '@playwright/test';
 
-const authFile = '../.auth/user.json';
+const authFile = '.auth/user.json';
 
 setup('authenticate', async ({ page }) => {
   await page.goto('https://conduit.bondaracademy.com/');
@@ -8,7 +8,11 @@ setup('authenticate', async ({ page }) => {
   await page.getByPlaceholder('Email').fill('eugene@test.com');
   await page.getByPlaceholder('Password').fill('12345678');
   await page.getByRole('button', { name: 'Sign in' }).click();
-  await page.waitForResponse('https://conduit-api.bondaracademy.com/api/users/login')
+  const response = await page.waitForResponse('https://conduit-api.bondaracademy.com/api/users/login');
+  const loginData = await response.json();
 
   await page.context().storageState({ path: authFile });
+
+  // Save token to the environment variable for later use
+  process.env.AUTH_TOKEN = loginData.user.token;
 });

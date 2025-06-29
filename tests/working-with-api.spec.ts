@@ -33,21 +33,13 @@ test('Mock first article data', async ({ page }) => {
 
 test('Delete article', async ({ page, request }) => {
   const dateString = new Date().toISOString();
-  const response = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {
-    data: {
-      user: { email: 'eugene@test.com', password: '12345678' },
-    },
-  });
-  const loginData = await response.json();
-  const token = loginData.user.token;
-
   // Create a new article
   const createResponse = await request.post('https://conduit-api.bondaracademy.com/api/articles/', {
     data: {
       article: { title: `Title ${dateString}`, description: 'Description 1', body: 'Body text 1', tagList: ['automation'] },
     },
     headers: {
-      Authorization: `Token ${token}`,
+      Authorization: `Token ${process.env.AUTH_TOKEN}`,
     },
   });
   const createData = await createResponse.json();
@@ -81,17 +73,10 @@ test('Create article', async ({ page, request }) => {
   await expect(page.locator('app-article-preview h1').first()).toContainText(`Title ${dateString}`);
 
   // Delte article using API
-  const response2 = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {
-    data: {
-      user: { email: 'eugene@test.com', password: '12345678' },
-    },
-  });
-  const loginData = await response2.json();
-  const token = loginData.user.token;
-  const response3 = await request.delete(`https://conduit-api.bondaracademy.com/api/articles/${slugId}`, {
+  const response2 = await request.delete(`https://conduit-api.bondaracademy.com/api/articles/${slugId}`, {
     headers: {
-      Authorization: `Token ${token}`,
+      Authorization: `Token ${process.env.AUTH_TOKEN}`,
     },
   });
-  expect(response3.status()).toEqual(204);
+  expect(response2.status()).toEqual(204);
 });
