@@ -10,9 +10,13 @@ test.beforeEach(async ({ page }) => {
   });
 
   await page.goto('https://conduit.bondaracademy.com/');
+  await page.getByText('Sign in').click();
+  await page.getByPlaceholder('Email').fill('eugene@test.com');
+  await page.getByPlaceholder('Password').fill('12345678');
+  await page.getByRole('button', { name: 'Sign in' }).click();
 });
 
-test('Has brand', async ({ page }) => {
+test('Mock first article data', async ({ page }) => {
   // Mocking the articles API response
   await page.route('**/api/articles*', async (route) => {
     const response = await route.fetch();
@@ -55,4 +59,37 @@ test('Delete article', async ({ page, request }) => {
   expect(createResponse.ok()).toBeTruthy();
 
   // TODO: Add steps to login and delete the article
+});
+
+test('Create article', async ({ page, request }) => {
+  const dateString = new Date().toISOString();
+  await page.getByText('New Article').click();
+  await page.getByPlaceholder('Article Title').fill(`Title ${dateString}`);
+  await page.getByPlaceholder("What's this article about?").fill('Description 1');
+  await page.getByPlaceholder('Write your article (in markdown)').fill('Body text 1');
+  await page.getByPlaceholder('Enter tags').fill('automation');
+  await page.getByRole('button', { name: 'Publish Article' }).click();
+  const response1 = await page.waitForResponse('https://conduit-api.bondaracademy.com/api/articles/');
+  const data = await response1.json();
+  const slugId = data.article.slug;
+
+  await expect(page.locator('.article-page h1')).toContainText(`Title ${dateString}`);
+  await page.getByText('Home').click();
+  await page.getByText('Global Feed').click();
+  await expect(page.locator('app-article-preview h1').first()).toContainText(`Title ${dateString}`);
+
+  // Delte article using API
+  const response2 = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {
+    data: {
+      user: { email: 'eugene@test.com', password: '12345678' },
+    },
+  });
+  const loginData = await response2.json();
+  const token = loginData.user.token;
+  const response3 = await request.delete(`https://conduit-api.bondaracademy.com/api/articles/${slugId}`, {
+    headers: {
+      Authorization: `Token ${token}`,
+    },
+  });
+  expect(response3.status()).toEqual(204);
 });
