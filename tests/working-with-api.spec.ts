@@ -10,10 +10,6 @@ test.beforeEach(async ({ page }) => {
   });
 
   await page.goto('https://conduit.bondaracademy.com/');
-  await page.getByText('Sign in').click();
-  await page.getByPlaceholder('Email').fill('eugene@test.com');
-  await page.getByPlaceholder('Password').fill('12345678');
-  await page.getByRole('button', { name: 'Sign in' }).click();
 });
 
 test('Mock first article data', async ({ page }) => {
@@ -36,6 +32,7 @@ test('Mock first article data', async ({ page }) => {
 });
 
 test('Delete article', async ({ page, request }) => {
+  const dateString = new Date().toISOString();
   const response = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {
     data: {
       user: { email: 'eugene@test.com', password: '12345678' },
@@ -47,7 +44,7 @@ test('Delete article', async ({ page, request }) => {
   // Create a new article
   const createResponse = await request.post('https://conduit-api.bondaracademy.com/api/articles/', {
     data: {
-      article: { title: 'Title 1', description: 'Description 1', body: 'Body text 1', tagList: ['automation'] },
+      article: { title: `Title ${dateString}`, description: 'Description 1', body: 'Body text 1', tagList: ['automation'] },
     },
     headers: {
       Authorization: `Token ${token}`,
@@ -58,7 +55,12 @@ test('Delete article', async ({ page, request }) => {
   // Assert article creation
   expect(createResponse.ok()).toBeTruthy();
 
-  // TODO: Add steps to login and delete the article
+  await page.getByText('Home').click();
+  await page.getByText('Global Feed').click();
+  await expect(page.locator('app-article-preview h1').first()).toContainText(`Title ${dateString}`);
+  await page.getByText(`Title ${dateString}`).click();
+  await page.getByRole('button', { name: 'Delete Article' }).first().click();
+  await expect(page.locator('app-article-preview h1').first()).not.toContainText(`Title ${dateString}`);
 });
 
 test('Create article', async ({ page, request }) => {
