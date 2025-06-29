@@ -41,10 +41,13 @@ export default defineConfig({
     },
     {
       name: 'chromium',
+      use: { ...devices['Desktop Chrome'], },
+    },
+    {
+      name: 'chromium-api',
       use: { ...devices['Desktop Chrome'], storageState: '.auth/user.json' },
       dependencies: ['setup'],
     },
-
     // {
     //   name: 'firefox',
     //   use: { ...devices['Desktop Firefox'] },
