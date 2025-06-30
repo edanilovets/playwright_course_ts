@@ -1,5 +1,6 @@
 import { Page, Locator } from '@playwright/test';
 import { NavigationPage } from '../page-objects/navigation.page';
+import { faker } from '@faker-js/faker';
 
 export class PageManager {
   readonly page: Page;
