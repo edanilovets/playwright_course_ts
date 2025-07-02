@@ -3,7 +3,7 @@ import { PageManager } from '../page-objects/pagemanager';
 
 test.beforeEach(async ({ page }) => {
   const pm = new PageManager(page);
-  await pm.getNavigationPage().navigateTo('http://localhost:4200/');
+  await pm.getNavigationPage().navigateTo('/');
 });
 
 test('Navigate to form page', async ({ page }) => {
