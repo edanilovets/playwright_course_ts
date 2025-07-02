@@ -27,7 +27,7 @@ export default defineConfig<TestOptions>({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://localhost:4200/',
+    baseURL: 'http://localhost:4200/',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -55,6 +55,10 @@ export default defineConfig<TestOptions>({
       use: { ...devices['Desktop Chrome'] },
     },
     {
+      name: 'chrome',
+      use: { channel: 'chrome', ...devices['Desktop Chrome'] },
+    },
+    {
       name: 'dev',
       use: {
         ...devices['Desktop Chrome'],
@@ -71,7 +75,7 @@ export default defineConfig<TestOptions>({
         ...devices['Desktop Chrome'],
         sertifiQABaseUrl: 'https://qa.sertifi.net',
       },
-    },    
+    },
     // {
     //   name: 'firefox',
     //   use: { ...devices['Desktop Firefox'] },
