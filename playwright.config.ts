@@ -33,7 +33,7 @@ export default defineConfig<TestOptions>({
     trace: 'on-first-retry',
     // video: 'on'
     video: {
-      mode: 'on',
+      mode: 'off',
       size: { width: 1280, height: 720 },
     },
   },
