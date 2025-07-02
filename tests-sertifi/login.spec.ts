@@ -1,12 +1,14 @@
 import 'dotenv/config';
-import { test, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
+import { test } from '../test-options';
 
 // Read email and password from environment variables
 const baseUrl = process.env.SERTIFI_QA_BASEURL;
 const email = process.env.SERTIFI_QAADMIN_EMAIL;
 const password = process.env.SERTIFI_QAADMIN_PASSWORD;
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page, sertifiQABaseUrl }) => {
+  // await page.goto(sertifiQABaseUrl || baseUrl!);
   await page.goto(process.env.SERTIFI_QA_BASEURL!);
   await page.getByRole('textbox', { name: 'Username' }).click();
   await page.getByRole('textbox', { name: 'Username' }).fill(process.env.SERTIFI_QAADMIN_EMAIL!);

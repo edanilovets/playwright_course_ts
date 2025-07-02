@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import type { TestOptions } from './test-options';
 
 /**
  * Read environment variables from file.
@@ -11,7 +12,7 @@ import { defineConfig, devices } from '@playwright/test';
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig({
+export default defineConfig<TestOptions>({
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: false,
@@ -64,6 +65,13 @@ export default defineConfig({
       name: 'prod',
       use: { ...devices['Desktop Chrome'] },
     },
+    {
+      name: 'sertifi-qa',
+      use: {
+        ...devices['Desktop Chrome'],
+        sertifiQABaseUrl: 'https://qa.sertifi.net',
+      },
+    },    
     // {
     //   name: 'firefox',
     //   use: { ...devices['Desktop Firefox'] },
