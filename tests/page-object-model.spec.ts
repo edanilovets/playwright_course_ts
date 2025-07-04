@@ -1,12 +1,7 @@
-import { test, expect } from '@playwright/test';
-import { PageManager } from '../page-objects/pagemanager';
+import { expect } from '@playwright/test';
+import { test } from './fixtures/pm-fixture';
 
-test.beforeEach(async ({ page }) => {
-  const pm = new PageManager(page);
+test('Navigate to form page', async ({ pm }) => {
   await pm.getNavigationPage().navigateTo('/');
-});
-
-test('Navigate to form page', async ({ page }) => {
-  const pm = new PageManager(page);
   await pm.getNavigationPage().openFormLayouts();
 });
