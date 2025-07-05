@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
-import { test } from './fixtures/pm-fixture';
+import { test } from './fixtures/app-fixture';
 
-test('Navigate to form page', async ({ pm }) => {
-  await pm.getNavigationPage().navigateTo('/');
-  await pm.getNavigationPage().openFormLayouts();
+test('Navigate to form page', async ({ app }) => {
+  await app.navigationPage.navigateTo('/');
+  await app.navigationPage.openFormLayouts();
 });
