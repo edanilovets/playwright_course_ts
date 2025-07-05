@@ -30,80 +30,38 @@ export default defineConfig<TestOptions>({
     baseURL: 'http://localhost:4200/',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: 'retain-on-failure',
+    screenshot: 'only-on-failure',
     // video: 'on'
     video: {
-      mode: 'off',
+      mode: 'retain-on-failure',
       size: { width: 1280, height: 720 },
     },
   },
 
   /* Configure projects for major browsers */
   projects: [
-    {
-      name: 'setup',
-      testMatch: 'auth.setup.ts',
-      use: { ...devices['Desktop Chrome'] },
-    },
-    {
-      name: 'chromium-api',
-      use: { ...devices['Desktop Chrome'], storageState: '.auth/user.json' },
-      dependencies: ['setup'],
-    },
+    // {
+    //   name: 'setup',
+    //   testMatch: 'auth.setup.ts',
+    //   use: { ...devices['Desktop Chrome'] },
+    // },
+    // {
+    //   name: 'chromium-api',
+    //   use: { ...devices['Desktop Chrome'], storageState: '.auth/user.json' },
+    //   dependencies: ['setup'],
+    // },
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-    {
-      name: 'chrome',
-      use: { channel: 'chrome', ...devices['Desktop Chrome'] },
-    },
-    {
-      name: 'dev',
-      use: {
-        ...devices['Desktop Chrome'],
-        baseURL: 'http://localhost:4200/',
-      },
-    },
-    {
-      name: 'prod',
-      use: { ...devices['Desktop Chrome'] },
-    },
-    {
-      name: 'sertifi-qa',
-      use: {
-        ...devices['Desktop Chrome'],
-        sertifiQABaseUrl: 'https://qa.sertifi.net',
-      },
-    },
     // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] },
-    // },
-
-    // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
-    // },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    {
-      name: 'Mobile Safari',
-      use: { ...devices['iPhone 15'] },
-    },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
+    //   name: 'chrome',
+    //   use: { channel: 'chrome', ...devices['Desktop Chrome'] },
     // },
     // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+    //   name: 'Mobile Safari',
+    //   use: { ...devices['iPhone 15'] },
     // },
   ],
 
