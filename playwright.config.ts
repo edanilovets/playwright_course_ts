@@ -54,14 +54,6 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-    // {
-    //   name: 'chrome',
-    //   use: { channel: 'chrome', ...devices['Desktop Chrome'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 15'] },
-    // },
   ],
 
   /* Run your local dev server before starting the tests */
